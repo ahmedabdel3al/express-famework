@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth');
 var auth = require('./App/middleware/auth');
 var app = express();
 var jade = require('jade');
@@ -22,6 +23,7 @@ app.set('view engine', 'jade')
 
 
 app.use(auth);
+app.use('/api',authRouter);
 app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler
