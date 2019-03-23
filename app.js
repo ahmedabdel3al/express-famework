@@ -8,10 +8,12 @@ var authRouter = require('./routes/auth');
 var auth = require('./App/middleware/auth');
 var app = express();
 var jade = require('jade');
+const env = require('dotenv');
+env.config();
 const mongoose = require('mongoose');
 
 //define db connection with mongodb
-mongoose.connect("mongodb://localhost:27017/learningnodejs", {useNewUrlParser: true})
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
         .then(()=>{console.log('mongodb connecting .....')}) 
         .catch((err)=>{console.error('error while connecting with mongodb...' ,err)});
 app.use(logger('dev'));
