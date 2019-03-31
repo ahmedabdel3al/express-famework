@@ -1,15 +1,14 @@
 /**
  * login controller 
 */
-const jwt=require('jsonwebtoken');
-const key = require('./../../../routes/key');
 const User = require('./../../model/User');
-
+const Jwt=require('./../../JwtHelper/Jwt');
 /**
  * @todo  login user to system 
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
+ * @return json response
  */
 
 async function login(req,res,next){
@@ -23,12 +22,14 @@ async function login(req,res,next){
         }
         const isPassValid = await user.comparePassword(password)
         if(!isPassValid){
-            return res.json(403).json({
+            return res.status(403).json({
                error:"incorrect password "
             });
         }
-        let token = generateToken(user.id)
-       
+        let token = Jwt.signToken(user._id)
+        if(!token){
+            res.status(419).json({error:"Server Down please try again ... "}) 
+        }
         res.status(200).json({
             userId:user.id,
             email:user.email,
@@ -40,12 +41,6 @@ async function login(req,res,next){
           res.status(403).json({error:"incorrect password or email"})
       }
         
-}
-
-
-function generateToken(userId){
-    let token=jwt.sign({userId:userId},key.tokenKey);
-    return token; 
 }
 
 async function getUserByEmail(email){
