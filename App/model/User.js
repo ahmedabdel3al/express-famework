@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
  * set attribute password when saving a new user 
 */
 userSchema.pre('save', function (next) {
-    var user = this;
+    let user = this;
     if (!user.isModified('password')) {return next()};
     bcrypt.hash(user.password,10).then((hashedPassword) => {
         user.password = hashedPassword;
@@ -29,8 +29,8 @@ userSchema.pre('save', function (next) {
     next(err)
 })
 /**
- *  comparepassword is method avilable 
- *  in userSchma instance 
+ *  compare password is method avilable
+ *  in userSchema instance
  */
 userSchema.methods.comparePassword = async function (candidatePassword) {
     let user  = this 

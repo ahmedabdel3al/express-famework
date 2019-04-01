@@ -9,20 +9,34 @@ var auth = require('./App/middleware/auth');
 var app = express();
 var jade = require('jade');
 const env = require('dotenv');
+const UserCreatedLisnter = require('./App/Lisenter/UserCreated/SendActiveMail');
 env.config();
 const mongoose = require('mongoose');
 
+/****
+ *  here register listener for app events
+ *
+ */
+app.on('UserCreated', UserCreatedLisnter.sendActiveMail);
+/**
+ *
+ * */
 //define db connection with mongodb
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
-        .then(()=>{console.log('mongodb connecting .....')}) 
-        .catch((err)=>{console.error('error while connecting with mongodb...' ,err)});
+    .then(() => {
+        console.log('mongodb connecting .....')
+    })
+    .catch((err) => {
+        console.error('error while connecting with mongodb...', err)
+    });
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'jade')
-app.use('/api',authRouter);
+
+app.use('/api', authRouter);
 app.use(auth);
 app.use('/api/users', usersRouter);
 // catch 404 and forward to error handler
