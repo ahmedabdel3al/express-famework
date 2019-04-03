@@ -12,7 +12,6 @@ const env = require('dotenv');
 const UserCreatedLisnter = require('./App/Lisenter/UserCreated/SendActiveMail');
 env.config();
 const mongoose = require('mongoose');
-
 /****
  *  here register listener for app events
  */
