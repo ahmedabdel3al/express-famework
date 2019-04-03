@@ -15,11 +15,10 @@ const mongoose = require('mongoose');
 
 /****
  *  here register listener for app events
- *
  */
 app.on('UserCreated', UserCreatedLisnter.sendActiveMail);
 /**
- *
+ * end of defnation 
  * */
 //define db connection with mongodb
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
