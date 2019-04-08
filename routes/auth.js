@@ -13,4 +13,6 @@ const RegisterController = require('../App/controller/Auth/RegisterController');
 router.post('/sign-in',LoginFormRequest.rule,LoginController.login);
 router.post('/register',RegisterFormRequest.rule,RegisterController.register);
 
+
+
 module.exports = router;
